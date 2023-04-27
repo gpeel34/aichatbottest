@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ChatBot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f1f1;
+      }
+
+      .container {
+        border-radius: 5px;
+        background-color: #ffffff;
+        padding: 10px;
+        margin: 50px auto;
+        max-width: 500px;
+        box-shadow: 0 0 10px #ccc;
+      }
+
+      .chatbot-message {
+        background-color: #f1f1f1;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-align: left;
+      }
+
+      .user-message {
+        background-color: #4CAF50;
+        color: #ffffff;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-align: right;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        width: 80%;
+      }
+
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="chatbot-message">
+        <p>Hello! I am a chatbot. How can I help you today?</p>
+      </div>
+      <form onsubmit="return sendMessage()">
+        <div class="user-message">
+          <input type="text" id="user-input" placeholder="Type your message here...">
+          <input type="submit" value="Send">
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function sendMessage() {
+        var userInput = document.getElementById("user-input").value;
+        var chatbotOutput = generateChatbotResponse(userInput);
+        var chatbotMessage = '<div class="chatbot-message"><p>' + chatbotOutput + '</p></div>';
+        document.querySelector('.user-message').insertAdjacentHTML('beforebegin', chatbotMessage);
+        document.getElementById("user-input").value = "";
+        return false;
+      }
+
+      
+      const openai = require('openai');
+
+openai.api_key = process.env.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;
+
+openai.Completion.create({
+  model: "text-davinci-003",
+  prompt: "You are an AI assistant that is an expert music producer.\nYou specialize in making trap melodys and knowing everything about FL Studio.\nIf you are unable to provide an answer, respond with the phrase, \"Im not Metro Boomin' yet, so I can't help with that.\" Or if the human asks something that has nothing to do with music at all say, \"Sorry, but I am a music making AI only.\"\nDo not use any external URls in your answers. Do not refer to any blogs or videos in your answer. \n\n",
+  temperature: 0.7,
+  max_tokens: 550,
+  top_p: 1,
+  frequency_penalty: 0,
+  presence_penalty: 0
+})
+.then(response => {
+  // handle response
+})
+.catch(err => {
+  // handle error
+  console.error(err);
+});
+    </script>
+  </body>
+</html>
+
